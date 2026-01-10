@@ -1,0 +1,7 @@
+[tools]
+starship = 'latest'
+ripgrep = 'latest'
+neovim = 'latest'
+uv = 'latest'
+kubectl = 'latest'
+tmux = 'latest'
