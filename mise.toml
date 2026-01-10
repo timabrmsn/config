@@ -1,6 +1,5 @@
 [tools]
 atuin = 'latest'
-curl = 'latest'
 kubectl = 'latest'
 neovim = 'latest'
 ripgrep = 'latest'
@@ -10,7 +9,8 @@ uv = 'latest'
 
 [tasks.setup]
 run = [
-  '''echo 'eval "$(starship init zsh)"' >> ~/.zshrc'''
+  '''grep 'starship init' ~/.zshrc > /dev/null || echo 'eval "$(starship init zsh)"' >> ~/.zshrc''',
+  '''grep 'atuin init' ~/.zshrc > /dev/null || echo 'eval "$(atuin init zsh)"' >> ~/.zshrc''',
 ]
 
 [tasks.sync]
