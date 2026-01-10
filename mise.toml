@@ -1,12 +1,17 @@
 [tools]
-starship = 'latest'
-ripgrep = 'latest'
-neovim = 'latest'
-uv = 'latest'
+atuin = 'latest'
+curl = 'latest'
 kubectl = 'latest'
+neovim = 'latest'
+ripgrep = 'latest'
+starship = 'latest'
 tmux = 'latest'
+uv = 'latest'
 
 [tasks.setup]
 run = [
   '''echo 'eval "$(starship init zsh)"' >> ~/.zshrc'''
 ]
+
+[tasks.sync]
+run = 'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/mise.toml -o ~/.config/mise.toml'
