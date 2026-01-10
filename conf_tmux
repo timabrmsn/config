@@ -1,6 +1,6 @@
 bind r source-file ~/.config/tmux.conf \; display-message "Config reloaded.."
 
-set-option -g default-shell $(which zsh)
+set-option -g default-shell /bin/zsh
 
 # status bar stuff
 set -g base-index 1
