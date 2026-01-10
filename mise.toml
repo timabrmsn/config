@@ -5,3 +5,8 @@ neovim = 'latest'
 uv = 'latest'
 kubectl = 'latest'
 tmux = 'latest'
+
+[tasks.setup]
+run = [
+  '''echo 'eval "$(starship init zsh)"' >> ~/.zshrc'''
+]
