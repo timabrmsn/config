@@ -12,7 +12,7 @@ uv = 'latest'
 run = [
   'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/mise.toml -o ~/.config/mise.toml',
   'mkdir -p ~/.config/tmux',
-  'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_zsh -o ~/.config/tmux/tmux.conf',
+  'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_tmux -o ~/.config/tmux/tmux.conf',
   'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_zsh -o ~/.zsh_conf',
   'grep zsh_conf ~/.zshrc >/dev/null || echo ". ~/.zsh_conf" >> ~/.zshrc',
 ]
