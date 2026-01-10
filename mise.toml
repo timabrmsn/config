@@ -7,65 +7,12 @@ starship = 'latest'
 tmux = 'latest'
 uv = 'latest'
 
-[vars]
-zshconf = '''
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey ^e edit-command-line
-
-eval "$(starship init zsh)"
-eval "$(atuin init zsh)"
-
-alias ll="ls -lah"
-'''
-
-tmuxconf = '''
-bind r source-file ~/.config/tmux.conf \; display-message "Config reloaded.."
-
-# status bar stuff
-set -g base-index 1
-set -g status-position top
-set -g status-bg cyan
-set -g window-active-style "bg=colour236"
-set-option -g status-interval 3
-set-option -g automatic-rename on
-set-option -g automatic-rename-format "#{b:pane_current_path}"
-
-# mouse config
-set -g mouse on
-bind-key -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "pbcopy"
-bind-key -T copy-mode MouseDragEnd1Pane send -X copy-pipe-and-cancel "pbcopy"
-bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
-
-# vi copy mode
-set-window-option -g mode-keys vi
-bind-key -T copy-mode-vi "v" send -X begin-selection
-bind-key -T copy-mode-vi "y" send -X copy-pipe-and-cancel "pbcopy"
-
-# open pane splits in same directory as previous pane
-bind \" split-window -c "#{pane_current_path}"
-bind % split-window -h -c "#{pane_current_path}"
-bind c new-window -c "#{pane_current_path}"
-
-# change panes with vi hjkl movements
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
-
-# resize panes with M-<arrow>
-bind-key -r -T prefix       M-k           resize-pane -U 5
-bind-key -r -T prefix       M-j           resize-pane -D 5
-bind-key -r -T prefix       M-h           resize-pane -L 5
-bind-key -r -T prefix       M-l           resize-pane -R 5
-'''
-
-[tasks.setup]
-run = [
-  "echo '{{vars.zshconf}}' > ~/.zshconf",
-  "grep zshconf ~/.zshrc >/dev/null || echo '. ~/.zshconf' >> ~/.zshrc",
-  "echo '{{vars.tmuxconf}}' > ~/.config/tmux.conf",
-]
 
 [tasks.sync]
-run = 'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/mise.toml -o ~/.config/mise.toml'
+run = [
+  'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/mise.toml -o ~/.config/mise.toml',
+  'mkdir -p ~/.config/tmux',
+  'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_zsh -o ~/.config/tmux/tmux.conf',
+  'curl https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_zsh -o ~/.zsh_conf',
+  'grep zsh_conf ~/.zshrc >/dev/null || echo ". ~/.zsh_conf" >> ~/.zshrc',
+]
