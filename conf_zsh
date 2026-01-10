@@ -8,4 +8,5 @@ eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 
 alias ll="ls -lah"
+alias vim=nvim
 
