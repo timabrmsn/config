@@ -8,13 +8,27 @@ starship = 'latest'
 tmux = 'latest'
 uv = 'latest'
 
+[tasks._sync]
+quiet = true
+hide = true
+usage = '''
+arg "<target>"
+arg "<source>"
+'''
+run = '''
+#!/usr/bin/env zsh
+tmp=$(mktemp)
+git diff {{ usage.target }} <(curl -s {{ usage.source }} | tee $tmp) || mv $tmp {{ usage.target }}
+'''
 
 [tasks.sync]
 run = [
   'mkdir -p ~/.config/tmux ~/.config/nvim',
-  'curl https://abramson.dev/mise.toml -o ~/.config/mise.toml',
-  'curl https://abramson.dev/conf_zsh -o ~/.zsh_conf',
-  'curl https://abramson.dev/conf_tmux -o ~/.config/tmux/tmux.conf',
-  'curl https://abramson.dev/conf_nvim -o ~/.config/nvim/init.lua',
+  'mise run _sync ~/.config/mise.toml https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/mise.toml',
+  'mise run _sync ~/.zsh_conf https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_zsh',
+  'mise run _sync ~/.config/tmux/tmux.conf https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_tmux',
+  'mise run _sync ~/.config/nvim/init.lua https://raw.githubusercontent.com/timabrmsn/config/refs/heads/main/conf_nvim',
   'grep zsh_conf ~/.zshrc >/dev/null || echo ". ~/.zsh_conf" >> ~/.zshrc',
+
 ]
+
