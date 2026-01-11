@@ -1,6 +1,7 @@
 [tools]
 atuin = 'latest'
 kubectl = 'latest'
+lazygit = 'latest'
 neovim = 'latest'
 ripgrep = 'latest'
 starship = 'latest'
