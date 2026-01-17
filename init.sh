@@ -2,7 +2,7 @@
 
 # Universal linux zsh installation
 /usr/bin/env zsh --version || \
-sudo apt install zsh -y 2>/dev/null || \
+sudo apt update && sudo apt install zsh -y 2>/dev/null || \
 sudo dnf install zsh -y 2>/dev/null || \
 sudo yum install zsh -y 2>/dev/null || \
 sudo pacman -Sy zsh --noconfirm 2>/dev/null || \
