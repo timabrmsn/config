@@ -25,7 +25,7 @@ git diff {{ usage.target }} <(curl -s {{ usage.source }} | tee $tmp) || mv $tmp 
 run = [
   'mkdir -p ~/.config/tmux ~/.config/nvim ~/.config/zsh',
   'mise run _sync ~/.config/mise.toml https://abramson.dev/mise.toml',
-  'mise run _sync ~/.config/zsh.conf https://abramson.dev/zsh.conf',
+  'mise run _sync ~/.config/zsh/zsh.conf https://abramson.dev/zsh.conf',
   'mise run _sync ~/.config/tmux/tmux.conf https://abramson.dev/tmux.conf',
   'mise run _sync ~/.config/nvim/init.lua https://abramson.dev/init.lua',
   'grep zsh\.conf ~/.zshrc >/dev/null || echo ". ~/.config/zsh/zsh.conf" >> ~/.zshrc',
