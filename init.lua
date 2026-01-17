@@ -94,7 +94,11 @@ end, { desc = "Run current buffer" })
 
 -- Floating Terminal Config
 local state = {
-	floating = {
+	floating_term = {
+		buf = -1,
+		win = -1,
+	},
+	floating_lazygit = {
 		buf = -1,
 		win = -1,
 	},
@@ -131,16 +135,34 @@ local function create_floating_window(opts)
 end
 
 vim.api.nvim_create_user_command("Floaterminal", function()
-	if not vim.api.nvim_win_is_valid(state.floating.win) then
-		state.floating = create_floating_window({ buf = state.floating.buf })
-		if vim.bo[state.floating.buf].buftype ~= "terminal" then
+	if not vim.api.nvim_win_is_valid(state.floating_term.win) then
+		state.floating_term = create_floating_window({ buf = state.floating_term.buf })
+		if vim.bo[state.floating_term.buf].buftype ~= "terminal" then
 			vim.cmd.term()
 		end
+		vim.cmd("startinsert")
 	else
-		vim.api.nvim_win_hide(state.floating.win)
+		vim.api.nvim_win_hide(state.floating_term.win)
+		local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(esc, "n", false)
 	end
 end, {})
-vim.keymap.set({ "n", "t" }, "<Esc><Esc>", "<C-\\><C-n>:Floaterminal<CR>i")
+vim.keymap.set({ "n", "t" }, "<leader>tt", "<C-\\><C-n>:Floaterminal<CR>")
+
+-- Floating LazyGit Window
+vim.api.nvim_create_user_command("Floatgit", function()
+	if not vim.api.nvim_win_is_valid(state.floating_lazygit.win) then
+		state.floating_lazygit = create_floating_window({ buf = state.floating_lazygit.buf })
+		if vim.bo[state.floating_lazygit.buf].buftype ~= "terminal" then
+			vim.cmd.term("lazygit")
+		end
+	else
+		vim.api.nvim_win_hide(state.floating_lazygit.win)
+		local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+		vim.api.nvim_feedkeys(esc, "n", false)
+	end
+end, {})
+vim.keymap.set({ "n", "t" }, "<leader>lg", "<C-\\><C-n>:Floatgit<CR>")
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
