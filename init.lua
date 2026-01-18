@@ -134,20 +134,31 @@ local function create_floating_window(opts)
 	return { buf = buf, win = win }
 end
 
+local function hide_floating_windows()
+	local term = state.floating_term.win
+	local lazygit = state.floating_lazygit.win
+
+	if vim.api.nvim_win_is_valid(term) then
+		vim.api.nvim_win_hide(state.floating_term.win)
+	end
+	if vim.api.nvim_win_is_valid(lazygit) then
+		vim.api.nvim_win_hide(state.floating_lazygit.win)
+	end
+	local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+	vim.api.nvim_feedkeys(esc, "n", false)
+end
+
 vim.api.nvim_create_user_command("Floaterminal", function()
 	if not vim.api.nvim_win_is_valid(state.floating_term.win) then
 		state.floating_term = create_floating_window({ buf = state.floating_term.buf })
 		if vim.bo[state.floating_term.buf].buftype ~= "terminal" then
-			vim.cmd.term()
+			local cwd = vim.fn.getcwd()
+			vim.cmd.term("tmux new-session -A -s vim-" .. cwd)
 		end
 		vim.cmd("startinsert")
-	else
-		vim.api.nvim_win_hide(state.floating_term.win)
-		local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-		vim.api.nvim_feedkeys(esc, "n", false)
 	end
 end, {})
-vim.keymap.set({ "n", "t" }, "<leader>tt", "<C-\\><C-n>:Floaterminal<CR>")
+vim.keymap.set("n", "<leader>t", "<C-\\><C-n>:Floaterminal<CR>")
 
 -- Floating LazyGit Window
 vim.api.nvim_create_user_command("Floatgit", function()
@@ -156,13 +167,13 @@ vim.api.nvim_create_user_command("Floatgit", function()
 		if vim.bo[state.floating_lazygit.buf].buftype ~= "terminal" then
 			vim.cmd.term("lazygit")
 		end
-	else
-		vim.api.nvim_win_hide(state.floating_lazygit.win)
-		local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-		vim.api.nvim_feedkeys(esc, "n", false)
+		vim.cmd("startinsert")
 	end
 end, {})
-vim.keymap.set({ "n", "t" }, "<leader>lg", "<C-\\><C-n>:Floatgit<CR>")
+vim.keymap.set("n", "<leader>g", "<C-\\><C-n>:Floatgit<CR>")
+
+vim.keymap.set({ "n", "t" }, "<leader>h", hide_floating_windows)
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -319,8 +330,8 @@ require("lazy").setup({
 			-- Document existing key chains
 			spec = {
 				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+				{ "<leader>t", group = "[T]erminal" },
+				{ "<leader>h", group = "[H]ide floating windows", mode = { "n", "t" } },
 			},
 		},
 	},
