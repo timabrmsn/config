@@ -23,7 +23,7 @@ git diff {{ usage.target }} <(curl -s {{ usage.source }} | tee $tmp) || mv $tmp 
 
 [tasks.sync]
 run = [
-  'mkdir -p ~/.config/tmux ~/.config/nvim ~/.config/zsh',
+  'mkdir -p ~/.config/tmux ~/.config/nvim/lua ~/.config/zsh',
   'mise run _sync ~/.config/mise.toml https://abramson.dev/mise.toml',
   'mise run _sync ~/.config/zsh/zsh.conf https://abramson.dev/zsh.conf',
   'mise run _sync ~/.config/tmux/tmux.conf https://abramson.dev/tmux.conf',
