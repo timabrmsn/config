@@ -28,8 +28,6 @@ run = [
   'mise run _sync ~/.config/zsh/zsh.conf https://abramson.dev/zsh.conf',
   'mise run _sync ~/.config/tmux/tmux.conf https://abramson.dev/tmux.conf',
   'mise run _sync ~/.config/nvim/init.lua https://abramson.dev/init.lua',
-  'mise run _sync ~/.config/nvim/lua/keymap.lua https://abramson.dev/lua/keymap.lua',
-  'mise run _sync ~/.config/nvim/lua/opts.lua https://abramson.dev/lua/opts.lua',
   'grep zsh\.conf ~/.zshrc >/dev/null || echo ". ~/.config/zsh/zsh.conf" >> ~/.zshrc',
 
 ]
